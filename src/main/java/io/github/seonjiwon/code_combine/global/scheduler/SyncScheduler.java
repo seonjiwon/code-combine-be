@@ -1,6 +1,6 @@
 package io.github.seonjiwon.code_combine.global.scheduler;
 
-import io.github.seonjiwon.code_combine.domain.repo.service.facade.CommitSyncFacade;
+import io.github.seonjiwon.code_combine.domain.repo.service.CommitSyncFacade;
 import io.github.seonjiwon.code_combine.domain.user.domain.User;
 import io.github.seonjiwon.code_combine.domain.user.repository.UserRepository;
 import java.util.List;

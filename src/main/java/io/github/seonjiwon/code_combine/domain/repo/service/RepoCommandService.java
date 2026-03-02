@@ -21,7 +21,7 @@ public class RepoCommandService {
     private final UserQueryService userQueryService;
 
     /**
-     * 레포지토리 등록.
+     * 레포지토리 등록
      */
     public RepoRegistrationResult registerRepository(Long userId, RepoRegisterRequest request) {
         User user = userQueryService.getById(userId);
@@ -40,5 +40,20 @@ public class RepoCommandService {
         log.info("Repository 등록 완료: userId={}, repoName={}", userId, repo.getName());
 
         return new RepoRegistrationResult(user, repo);
+    }
+
+    public void startSync(Repo repo) {
+        repo.startSync();
+        repoRepository.save(repo);
+    }
+
+    public void completeSync(Repo repo) {
+        repo.completeSync();
+        repoRepository.save(repo);
+    }
+
+    public void failSync(Repo repo) {
+        repo.failSync();
+        repoRepository.save(repo);
     }
 }

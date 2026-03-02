@@ -1,6 +1,6 @@
 package io.github.seonjiwon.code_combine.domain.solution.controller;
 
-import io.github.seonjiwon.code_combine.domain.repo.service.facade.CommitSyncFacade;
+import io.github.seonjiwon.code_combine.domain.repo.service.CommitSyncFacade;
 import io.github.seonjiwon.code_combine.domain.solution.dto.DashboardResponse;
 import io.github.seonjiwon.code_combine.domain.solution.dto.SolutionResponse;
 import io.github.seonjiwon.code_combine.domain.solution.service.query.CommitQueryService;

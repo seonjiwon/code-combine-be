@@ -2,8 +2,8 @@ package io.github.seonjiwon.code_combine.domain.repo.controller;
 
 import io.github.seonjiwon.code_combine.domain.repo.dto.GitHubRepoResponse.RepoList;
 import io.github.seonjiwon.code_combine.domain.repo.service.GitHubRepoService;
-import io.github.seonjiwon.code_combine.domain.repo.service.facade.RepoRegistrationFacade;
 import io.github.seonjiwon.code_combine.domain.repo.dto.RepoRegisterRequest;
+import io.github.seonjiwon.code_combine.domain.repo.service.CommitSyncFacade;
 import io.github.seonjiwon.code_combine.global.CustomResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "레포 등록 API", description = "유저의 레포지토리를 등록합니다.")
 public class RepoController {
 
-    private final RepoRegistrationFacade repoRegistrationFacade;
+    private final CommitSyncFacade commitSyncFacade;
     private final GitHubRepoService gitHubRepoService;
 
     @GetMapping("/repos")
@@ -49,7 +49,7 @@ public class RepoController {
         @Parameter(description = "사용자의 리포지토리 이름", example = "Java-Algorithm")
         @RequestBody RepoRegisterRequest repoRegisterRequest) {
 
-        repoRegistrationFacade.register(userId, repoRegisterRequest);
+        commitSyncFacade.registerAndSync(userId, repoRegisterRequest);
         return CustomResponse.onSuccess("레포지토리 등록 완료");
     }
 

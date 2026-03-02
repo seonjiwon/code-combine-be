@@ -34,10 +34,4 @@ public class User extends BaseEntity {
 
     @Column(length = 500)
     private String avatarUrl;
-
-    private LocalDateTime lastSyncAt;
-
-    public void updateLastSyncAt() {
-        this.lastSyncAt = LocalDateTime.now();
-    }
 }

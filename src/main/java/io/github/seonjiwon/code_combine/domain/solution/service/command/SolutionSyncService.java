@@ -21,7 +21,6 @@ public class SolutionSyncService {
 
     private final ProblemCommandService problemCommandService;
     private final SolutionRepository solutionRepository;
-    private final UserRepository userRepository;
 
     /**
      * 커밋 중복 체크
@@ -53,15 +52,5 @@ public class SolutionSyncService {
 
         solutionRepository.save(solution);
         log.info("풀이 저장 완료: 문제 번호={}, 사용자={}", problem.getProblemNumber(), user.getUsername());
-    }
-
-    /**
-     * 사용자 동기와 상태 업데이트
-     */
-    public void updateUserSyncStatus(User user) {
-        user.updateLastSyncAt();
-        userRepository.save(user);
-        log.info("사용자 동기화 시간 업데이트: userId={}, lastSyncAt={}",
-            user.getId(), user.getLastSyncAt());
     }
 }
