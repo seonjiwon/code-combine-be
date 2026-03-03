@@ -1,0 +1,49 @@
+
+         /\      Grafana   /‾‾/
+    /\  /  \     |\  __   /  /
+   /  \/    \    | |/ /  /   ‾‾\
+  /          \   |   (  |  (‾)  |
+ / __________ \  |_|\_\  \_____/
+
+     execution: local
+        script: k6/scripts/repo-register-test.js
+        output: -
+
+     scenarios: (100.00%) 1 scenario, 1 max VUs, 10m30s max duration (incl. graceful stop):
+              * default: 1 iterations shared among 1 VUs (maxDuration: 10m0s, gracefulStop: 30s)
+
+INFO[0000] 응답 시간: 156ms, status: 200                     source=console
+
+
+  █ TOTAL RESULTS
+
+    checks_total.......: 2       12.506957/s
+    checks_succeeded...: 100.00% 2 out of 2
+    checks_failed......: 0.00%   0 out of 2
+
+    ✓ status is 200
+    ✓ response has success
+
+    CUSTOM
+    register_success...............: 1     6.253478/s
+    repo_register_duration.........: avg=156      min=156      med=156      max=156      p(90)=156      p(95)=156
+
+    HTTP
+    http_req_duration..............: avg=82.75ms  min=82.75ms  med=82.75ms  max=82.75ms  p(90)=82.75ms  p(95)=82.75ms
+      { expected_response:true }...: avg=82.75ms  min=82.75ms  med=82.75ms  max=82.75ms  p(90)=82.75ms  p(95)=82.75ms
+    http_req_failed................: 0.00% 0 out of 1
+    http_reqs......................: 1     6.253478/s
+
+    EXECUTION
+    iteration_duration.............: avg=159.18ms min=159.18ms med=159.18ms max=159.18ms p(90)=159.18ms p(95)=159.18ms
+    iterations.....................: 1     6.253478/s
+
+    NETWORK
+    data_received..................: 485 B 3.0 kB/s
+    data_sent......................: 309 B 1.9 kB/s
+
+
+
+
+running (00m00.2s), 0/1 VUs, 1 complete and 0 interrupted iterations
+default ✓ [======================================] 1 VUs  00m00.2s/10m0s  1/1 shared iters

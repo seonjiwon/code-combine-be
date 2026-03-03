@@ -2,7 +2,7 @@ import http from 'k6/http';
 import {check, sleep} from 'k6';
 import {Trend, Counter} from 'k6/metrics';
 
-const JWT_TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjYsImlhdCI6MTc3MjU1MDg1NywiZXhwIjoxNzczMTU1NjU3fQ.-kNKsRkNkc67pNCN566UHEzR_3aDaAIRBuwtjWU6R7E";
+const JWT_TOKEN = "__JWT__TOKEN__";
 
 const BASE_URL = "http://3.36.97.19:8080"
 
