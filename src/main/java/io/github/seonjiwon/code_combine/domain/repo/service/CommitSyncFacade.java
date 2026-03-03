@@ -1,21 +1,16 @@
 package io.github.seonjiwon.code_combine.domain.repo.service;
 
-import io.github.seonjiwon.code_combine.domain.problem.dto.ProblemInfo;
 import io.github.seonjiwon.code_combine.domain.repo.domain.Repo;
 import io.github.seonjiwon.code_combine.domain.repo.domain.SyncStatus;
 import io.github.seonjiwon.code_combine.domain.repo.dto.RepoRegisterRequest;
 import io.github.seonjiwon.code_combine.domain.repo.dto.RepoRegistrationResult;
-import io.github.seonjiwon.code_combine.domain.solution.service.command.SolutionSyncService;
-import io.github.seonjiwon.code_combine.domain.solution.utils.BaekjoonFilePathParser;
 import io.github.seonjiwon.code_combine.domain.user.domain.User;
 import io.github.seonjiwon.code_combine.domain.user.service.TokenService;
 import io.github.seonjiwon.code_combine.domain.user.service.UserQueryService;
 import io.github.seonjiwon.code_combine.global.infra.github.GitHubFetcher;
-import io.github.seonjiwon.code_combine.global.infra.github.dto.GitHubCommitDetail;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -29,7 +24,7 @@ public class CommitSyncFacade {
     private final GitHubFetcher fetcher;
 
     private final SingleCommitSynchronizer singleCommitSynchronizer;
-    private final AsyncCommitSynchronizer asyncCommitSynchronizer;
+    private final CommitSynchronizer commitSynchronizer;
 
     /**
      * 레포지토리 등록 + 전체 커밋 동기화
@@ -49,7 +44,7 @@ public class CommitSyncFacade {
         }
 
         log.info("초기 동기화 시작: userId={}, repo={}", userId, result.repo().getName());
-        asyncCommitSynchronizer.syncAllCommits(result.user(), result.repo());
+        commitSynchronizer.syncAllCommits(userId, result.repo().getId());
     }
 
 

@@ -17,6 +17,11 @@ public class RepoQueryService {
 
     private final RepoRepository repoRepository;
 
+    public Repo getById(Long repoId) {
+        return repoRepository.findById(repoId)
+                             .orElseThrow(() -> new CustomException(RepoErrorCode.REPO_NOT_FOUND));
+    }
+
     public Repo getByUserId(Long userId) {
         return repoRepository.findByUserId(userId)
                              .orElseThrow(() -> new CustomException(RepoErrorCode.REPO_NOT_FOUND));
