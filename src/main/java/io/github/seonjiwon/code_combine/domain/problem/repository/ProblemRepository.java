@@ -16,13 +16,13 @@ public interface ProblemRepository extends JpaRepository<Problem, Long> {
 
     @Query("SELECT p " +
         "FROM Problem p " +
-        "ORDER BY p.problemNumber")
+        "ORDER BY p.id")
     List<Problem> findProblems(Pageable pageable);
 
     @Query("SELECT p " +
         "FROM Problem p " +
         "WHERE p.id > :cursor " +
-        "ORDER BY p.problemNumber")
+        "ORDER BY p.id")
     List<Problem> findProblems(@Param("cursor") Long cursor, Pageable pageable);
 
 
