@@ -72,7 +72,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         response.addCookie(cookie);
 
         // 6. 리다이렉트
-        String redirectUrl = frontendUrl + "/auth/callback";
+        String redirectUrl = "http://" + frontendUrl + "/auth/callback";
         getRedirectStrategy().sendRedirect(request, response, redirectUrl);
     }
 
