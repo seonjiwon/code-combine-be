@@ -1,6 +1,5 @@
 package io.github.seonjiwon.code_combine.global.security.oauth;
 
-import io.github.seonjiwon.code_combine.domain.repo.repository.RepoRepository;
 import io.github.seonjiwon.code_combine.domain.user.dto.OAuth2UserInfo;
 import io.github.seonjiwon.code_combine.domain.user.domain.User;
 import io.github.seonjiwon.code_combine.domain.user.service.TokenService;
@@ -29,11 +28,11 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
+    private final OAuth2AuthorizedClientService oAuth2AuthorizedClientService;
     private final UserCommandService userCommandService;
     private final TokenService tokenService;
-    private final RepoRepository repoRepository;
     private final JwtProvider jwtProvider;
-    private final OAuth2AuthorizedClientService oAuth2AuthorizedClientService;
+
 
     @Value("${frontend.url}")
     private String frontendUrl;
@@ -73,7 +72,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         response.addCookie(cookie);
 
         // 6. 리다이렉트
-        String redirectUrl = determineRedirectUrl(user);
+        String redirectUrl = frontendUrl + "/auth/callback";
         getRedirectStrategy().sendRedirect(request, response, redirectUrl);
     }
 
@@ -112,13 +111,4 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         return cookie;
     }
 
-    private String determineRedirectUrl(User user) {
-        boolean hasRepo = repoRepository.findByUserId(user.getId()).isPresent();
-
-        if (hasRepo) {
-            return frontendUrl + "/dashboard";
-        } else {
-            return frontendUrl + "/auth/repo";
-        }
-    }
 }

@@ -3,6 +3,7 @@ package io.github.seonjiwon.code_combine.global.config;
 import io.github.seonjiwon.code_combine.global.security.filter.JwtAuthenticationFilter;
 import io.github.seonjiwon.code_combine.global.security.oauth.OAuth2LoginSuccessHandler;
 import io.github.seonjiwon.code_combine.global.security.utils.JwtProvider;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -49,6 +50,16 @@ public class SecurityConfig {
 
             .oauth2Login(oauth2 -> oauth2
                 .successHandler(oAuth2LoginSuccessHandler)
+            )
+
+            .logout(logout -> logout
+                .logoutUrl("/auth/logout")
+                .deleteCookies("accessToken")
+                .logoutSuccessHandler((request, response, authentication) -> {
+                    response.setStatus(HttpServletResponse.SC_OK);
+                    response.setContentType("application/json;charset=UTF-8");
+                    response.getWriter().write("{\"message\": \"로그아웃 완료\"}");
+                })
             )
 
 

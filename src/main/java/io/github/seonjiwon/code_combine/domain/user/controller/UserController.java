@@ -6,10 +6,13 @@ import io.github.seonjiwon.code_combine.domain.user.service.UserQueryService;
 import io.github.seonjiwon.code_combine.global.CustomResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,7 +33,8 @@ public class UserController {
     public CustomResponse<LoginSuccessResponse> getLoginSuccessUserInfo(
         @AuthenticationPrincipal Long userId) {
 
-        LoginSuccessResponse loginSuccessUserInfo = userQueryService.getLoginSuccessUserInfo(userId);
+        LoginSuccessResponse loginSuccessUserInfo = userQueryService.getLoginSuccessUserInfo(
+            userId);
         return CustomResponse.onSuccess(loginSuccessUserInfo);
     }
 }
