@@ -95,10 +95,9 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
     private void addJwtCookie(HttpServletResponse response, String jwt) {
         ResponseCookie cookie = ResponseCookie.from("accessToken", jwt)
                                               .httpOnly(true)
-                                              .secure(true)
+                                              .secure(false)
                                               .path("/")
                                               .maxAge(jwtExpiration / 1000)
-                                              .sameSite("None")
                                               .build();
 
         response.addHeader("Set-Cookie", cookie.toString());
