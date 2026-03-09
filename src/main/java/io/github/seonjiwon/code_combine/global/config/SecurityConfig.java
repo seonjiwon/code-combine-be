@@ -53,6 +53,14 @@ public class SecurityConfig {
                 .successHandler(oAuth2LoginSuccessHandler)
             )
 
+            .exceptionHandling(exception -> exception
+                .authenticationEntryPoint((request, response, authException) -> {
+                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                    response.setContentType("application/json;charset=UTF-8");
+                    response.getWriter().write("{\"message\": \"인증이 필요합니다\"}");
+                })
+            )
+
             .logout(logout -> logout
                 .logoutUrl("/auth/logout")
                 .deleteCookies("accessToken")
