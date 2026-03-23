@@ -57,7 +57,7 @@ public class SingleCommitSynchronizer {
      */
     private String findSourceCodePath(List<String> filePaths) {
         return filePaths.stream()
-                        .filter(path -> !path.startsWith("README.md"))
+                        .filter(path -> !path.endsWith("README.md"))
                         .findFirst()
                         .orElse(null);
     }
