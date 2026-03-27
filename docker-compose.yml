@@ -5,6 +5,7 @@ services:
     ports:
       - "8080:8080"
     environment:
+      - TZ=Asia/Seoul
       - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
       - DB_URL=${DB_URL}
       - DB_USERNAME=${DB_USERNAME}
@@ -14,6 +15,8 @@ services:
       - JWT_SECRET=${JWT_SECRET}
       - JWT_EXPIRATION=${JWT_EXPIRATION}
       - FRONTEND_URL=${FRONTEND_URL}
+    volumes:
+      - /home/ec2-user/logs/code-combine:/app/logs
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
