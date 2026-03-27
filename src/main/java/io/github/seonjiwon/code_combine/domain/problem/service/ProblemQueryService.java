@@ -71,7 +71,7 @@ public class ProblemQueryService {
      * 커서 기반으로 문제 조회
      */
     private List<Problem> fetchProblems(String cursor, int limit) {
-        Pageable pageable = PageRequest.of(0, limit, Sort.by("problemNumber"));
+        Pageable pageable = PageRequest.of(0, limit);
 
         if (cursor == null || cursor.isEmpty()) {
             return problemRepository.findProblems(pageable);

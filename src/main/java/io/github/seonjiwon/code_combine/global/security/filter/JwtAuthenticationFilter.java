@@ -35,7 +35,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
 
             // 3. 토큰 검증
-            if (!jwtProvider.validateToken(token) || jwtProvider.isExpired(token)) {
+            if (!jwtProvider.validateToken(token)) {
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 return;
             }
