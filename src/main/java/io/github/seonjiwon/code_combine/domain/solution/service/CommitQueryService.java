@@ -1,5 +1,6 @@
 package io.github.seonjiwon.code_combine.domain.solution.service;
 
+import io.github.seonjiwon.code_combine.domain.solution.dto.DashboardResponse.SolvedProblemInfo;
 import io.github.seonjiwon.code_combine.domain.solution.dto.DashboardResponse.UserCommit;
 import io.github.seonjiwon.code_combine.domain.solution.dto.DashboardResponse.WeeklyCommitInfo;
 import io.github.seonjiwon.code_combine.domain.solution.dto.DashboardResponse.WeeklyState;
@@ -72,18 +73,28 @@ public class CommitQueryService {
                                                              Collectors.counting()))
                                                          .entrySet().stream()
                                                          .map(entry -> {
-                                                             // 해당 유저의 Solution에서 User 정보 추출
                                                              User user = dailySolutions.stream()
                                                                                        .filter(s -> s.getUser().getId().equals(entry.getKey()))
                                                                                        .findFirst()
                                                                                        .get()
                                                                                        .getUser();
 
+                                                             // 해당 유저의 당일 풀이에서 문제 정보 추출
+                                                             List<SolvedProblemInfo> solvedProblems = dailySolutions.stream()
+                                                                                                                    .filter(s -> s.getUser().getId().equals(entry.getKey()))
+                                                                                                                    .map(s -> SolvedProblemInfo.builder()
+                                                                                                                                               .problemId(s.getProblem().getId())
+                                                                                                                                               .problemName(s.getProblem().getTitle())
+                                                                                                                                               .tier(s.getProblem().getTier())
+                                                                                                                                               .build())
+                                                                                                                    .toList();
+
                                                              return UserCommit.builder()
                                                                               .userId(user.getId())
                                                                               .username(user.getUsername())
                                                                               .avatarUrl(user.getAvatarUrl())
                                                                               .commitCount(entry.getValue().intValue())
+                                                                              .solvedProblems(solvedProblems)
                                                                               .build();
                                                          })
                                                          .toList();

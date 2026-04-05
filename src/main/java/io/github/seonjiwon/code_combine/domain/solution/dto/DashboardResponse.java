@@ -1,5 +1,6 @@
 package io.github.seonjiwon.code_combine.domain.solution.dto;
 
+import io.github.seonjiwon.code_combine.domain.problem.entity.ProblemTier;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.Builder;
@@ -39,7 +40,14 @@ public class DashboardResponse {
         Long userId,
         String username,
         String avatarUrl,
-        Integer commitCount
-    ) {
-    }
+        Integer commitCount,
+        List<SolvedProblemInfo> solvedProblems
+    ) {}
+
+    @Builder
+    public record SolvedProblemInfo(
+        Long problemId,
+        String problemName,
+        ProblemTier tier
+    ) {}
 }
