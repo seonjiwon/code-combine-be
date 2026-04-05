@@ -6,13 +6,11 @@ import io.github.seonjiwon.code_combine.domain.user.service.UserQueryService;
 import io.github.seonjiwon.code_combine.global.CustomResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,11 +28,11 @@ public class UserController {
         summary = "내 정보 조회",
         description = "JWT 토큰을 기반으로 현재 로그인한 사용자의 정보를 반환합니다."
     )
-    public CustomResponse<LoginSuccessResponse> getLoginSuccessUserInfo(
+    public ResponseEntity<CustomResponse<LoginSuccessResponse>> getLoginSuccessUserInfo(
         @AuthenticationPrincipal Long userId) {
 
-        LoginSuccessResponse loginSuccessUserInfo = userQueryService.getLoginSuccessUserInfo(
-            userId);
-        return CustomResponse.onSuccess(loginSuccessUserInfo);
+        LoginSuccessResponse loginSuccessUserInfo
+            = userQueryService.getLoginSuccessUserInfo(userId);
+        return ResponseEntity.ok(CustomResponse.onSuccess(loginSuccessUserInfo));
     }
 }

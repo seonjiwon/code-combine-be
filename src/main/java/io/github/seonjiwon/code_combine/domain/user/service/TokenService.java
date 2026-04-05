@@ -27,8 +27,8 @@ public class TokenService {
         return gitToken.getToken();
     }
 
-    // OAuth2 토큰 저장 또는 갱싱
-    public void saveOrUpdateToken(User user, String plainToken) {
+    // OAuth2 토큰 저장 또는 갱신
+    public void saveOrUpdateToken(User user, String plainToken, LocalDateTime expiresAt) {
         // 1. 활성화된 토큰을 조회해서 토큰이 있으면 이를 비활성화
         gitTokenRepository.findByUserIdAndStatus(user.getId(), TokenStatus.ACTIVATED)
             .ifPresent(GitToken::deactivate);
@@ -38,14 +38,10 @@ public class TokenService {
                                  .user(user)
                                  .token(plainToken)
                                  .issuedAt(LocalDateTime.now())
-                                 .expiresAt(calculateExpiration())
+                                 .expiresAt(expiresAt)
                                  .status(TokenStatus.ACTIVATED)
                                  .build();
         gitTokenRepository.save(newToken);
         log.debug("사용자 {} 토큰 저장 완료", user.getGitId());
-    }
-
-    private LocalDateTime calculateExpiration() {
-        return LocalDateTime.now().plusDays(30);
     }
 }

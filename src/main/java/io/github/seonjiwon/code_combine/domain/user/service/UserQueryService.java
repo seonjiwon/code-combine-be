@@ -22,7 +22,8 @@ public class UserQueryService {
      * 로그인 성공 후 사용자 정보 조회
      */
     public LoginSuccessResponse getLoginSuccessUserInfo(Long userId) {
-        User user = getById(userId);
+        User user = userRepository.findById(userId)
+                                 .orElseThrow(() -> new CustomException(UserErrorCode.USER_NOT_FOUND));
         boolean hasRepo = repoRepository.existsByUserId(userId);
 
         return LoginSuccessResponse.builder()
@@ -31,10 +32,5 @@ public class UserQueryService {
                                    .avatarUrl(user.getAvatarUrl())
                                    .hasRepo(hasRepo)
                                    .build();
-    }
-
-    public User getById(Long userId) {
-        return userRepository.findById(userId)
-                             .orElseThrow(() -> new CustomException(UserErrorCode.USER_NOT_FOUND));
     }
 }

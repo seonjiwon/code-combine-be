@@ -1,4 +1,6 @@
-package io.github.seonjiwon.code_combine.domain.solution.service.query;
+package io.github.seonjiwon.code_combine.domain.solution.service;
+
+import static io.github.seonjiwon.code_combine.domain.solution.dto.SolutionResponse.*;
 
 import io.github.seonjiwon.code_combine.domain.solution.code.SolutionErrorCode;
 import io.github.seonjiwon.code_combine.domain.solution.dto.SolutionResponse;
@@ -22,28 +24,33 @@ public class SolutionQueryService {
 
     public Solution getById(Long solutionId) {
         return solutionRepository.findById(solutionId)
-                                 .orElseThrow(() -> new CustomException(SolutionErrorCode.SOLUTION_NOT_FOUND));
+                                 .orElseThrow(() -> new CustomException(
+                                     SolutionErrorCode.SOLUTION_NOT_FOUND));
     }
 
     /**
      * 특정 문제의 풀이 상세 조회
      */
-    public SolutionResponse.Detail getDetailSolution(Long problemId) {
+    public Detail getDetailSolution(Long problemId) {
+        // 1. 해당 문제의 모든 풀이를 가져옴
         List<Solution> solutions = solutionRepository.findAllByProblemIdWithUser(problemId);
 
+        // 2. 제출 된 풀이를 기반으로 변환
         List<Submission> submissions = solutions.stream()
                                                 .map(solution ->
                                                     Submission.builder()
                                                               .solutionId(solution.getId())
-                                                              .username(solution.getUser().getUsername())
+                                                              .username(
+                                                                  solution.getUser().getUsername())
                                                               .language(solution.getLanguage())
-                                                              .submissionCode(solution.getSourceCode())
+                                                              .submissionCode(
+                                                                  solution.getSourceCode())
                                                               .solveExplain(null)
                                                               .build())
                                                 .toList();
 
-        return SolutionResponse.Detail.builder()
-                                      .submissions(submissions)
-                                      .build();
+        return Detail.builder()
+                     .submissions(submissions)
+                     .build();
     }
 }

@@ -41,15 +41,27 @@
     </rollingPolicy>
   </appender>
 
-  <!-- INFO + 콘솔 + 파일 -->
+  <!-- dev: 컬러 콘솔만 -->
+  <springProfile name="dev">
+    <appender name="CONSOLE_COLOR" class="ch.qos.logback.core.ConsoleAppender">
+      <encoder>
+        <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %highlight(%-5level) %cyan(%logger{36}) - %msg%n</pattern>
+        <charset>UTF-8</charset>
+      </encoder>
+    </appender>
+    <root level="DEBUG">
+      <appender-ref ref="CONSOLE_COLOR"/>
+    </root>
+    <logger name="org.springframework" level="WARN"/>
+    <logger name="org.hibernate" level="WARN"/>
+  </springProfile>
+
+  <!-- prod: 콘솔 + 파일 -->
   <springProfile name="!dev">
     <root level="INFO">
       <appender-ref ref="CONSOLE"/>
       <appender-ref ref="FILE"/>
     </root>
-    <!--
-        Spring/Hibernate 내부 로그는 WARN 이상만 기록
-    -->
     <logger name="org.springframework" level="WARN"/>
     <logger name="org.hibernate" level="WARN"/>
   </springProfile>

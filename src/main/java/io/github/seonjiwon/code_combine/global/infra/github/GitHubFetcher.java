@@ -59,6 +59,7 @@ public class GitHubFetcher {
         int page = 1;
 
         while (true) {
+            // 1. 커밋 가져오기 MaxPage = 100
             String response = apiClient.getCommits(token, owner, repo, page, MAX_PER_PAGE);
             List<String> pageShas = parser.parseCommitShas(response);
 

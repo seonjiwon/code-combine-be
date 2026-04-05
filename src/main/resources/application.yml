@@ -44,7 +44,6 @@ management:
 
 jwt:
   secret: ${JWT_SECRET}
-  expiration: ${JWT_EXPIRATION}
 
 github:
   base-url: https://api.github.com

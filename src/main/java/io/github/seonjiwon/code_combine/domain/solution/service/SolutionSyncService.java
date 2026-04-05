@@ -1,4 +1,4 @@
-package io.github.seonjiwon.code_combine.domain.solution.service.command;
+package io.github.seonjiwon.code_combine.domain.solution.service;
 
 import io.github.seonjiwon.code_combine.domain.problem.entity.Problem;
 import io.github.seonjiwon.code_combine.domain.problem.dto.ProblemInfo;

@@ -47,9 +47,6 @@ public class Repo extends BaseEntity {
     @Builder.Default
     private SyncStatus syncStatus = SyncStatus.NOT_STARTED;
 
-    @Builder.Default
-    private int retryCount = 0;
-
     private LocalDateTime lastSyncAt;
 
     public void startSync() {
@@ -59,11 +56,9 @@ public class Repo extends BaseEntity {
     public void completeSync() {
         this.syncStatus = SyncStatus.COMPLETED;
         this.lastSyncAt = LocalDateTime.now();
-        this.retryCount = 0;
     }
 
     public void failSync() {
         this.syncStatus = SyncStatus.FAILED;
-        this.retryCount++;
     }
 }

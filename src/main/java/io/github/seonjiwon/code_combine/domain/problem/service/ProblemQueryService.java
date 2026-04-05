@@ -43,7 +43,7 @@ public class ProblemQueryService {
         }
         String nextCursor = generateNextCursor(problems, hasNext);
 
-        // 3. 문제별 풀이자 조회
+        // 3. 문제별 풀이 조회
         Map<Long, List<Solution>> solverMap = groupSolversByProblem(problems);
 
         // 4. 응답 생성
@@ -56,11 +56,15 @@ public class ProblemQueryService {
      * 문제 검색
      */
     public ProblemSolveList searchProblems(String keyword) {
+        // 1. 숫자면 숫자 문제 숫자로 탐색 아니면 이름으로 탐색
         List<Problem> problems = keyword.matches("\\d+")
             ? problemRepository.findByProblemNumberStartingWith(keyword)
             : problemRepository.findByTitleStartingWith(keyword);
 
+        // 2. 문제 번호 별로 그룹핑
         Map<Long, List<Solution>> solverMap = groupSolversByProblem(problems);
+
+        // 3. 올바른 형태로 전환
         List<SolveInfo> solveInfos = buildSolveInfoList(problems, solverMap);
         return ProblemSolveList.from(solveInfos, null);
     }
@@ -95,14 +99,17 @@ public class ProblemQueryService {
             return Map.of();
         }
 
+        // 1. 문제의 Id 가져오기
         List<Long> problemIds = problems.stream()
                                         .map(Problem::getId)
                                         .toList();
 
-        log.debug("문제를 푼 사용자 조회: problemIds 수={}", problemIds.size());
+        log.debug("문제를 풀이 조회: problemIds 수={}", problemIds.size());
+        // 2. 문제 Id로 풀이 조회
         List<Solution> solutions = solutionRepository.findAllByProblemIdsWithUser(problemIds);
         log.debug("조회된 풀이 수: {}", solutions.size());
 
+        // 3. 문제 Id 로 그룹핑
         return solutions.stream()
                         .collect(Collectors.groupingBy(
                             solution -> solution.getProblem().getId()));

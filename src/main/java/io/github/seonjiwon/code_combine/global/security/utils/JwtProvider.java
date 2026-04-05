@@ -19,28 +19,24 @@ import org.springframework.util.StringUtils;
 public class JwtProvider {
 
     private final SecretKey secretKey;
-    private final Long expiration;
 
     private static final String AUTHORIZATION_HEADER = "Authorization";
     private static final String BEARER_PREFIX = "Bearer ";
     private static final String COOKIE_NAME = "accessToken";
 
 
-    public JwtProvider(@Value("${jwt.secret}") String secret,
-                       @Value("${jwt.expiration}") Long expiration) {
+    public JwtProvider(@Value("${jwt.secret}") String secret) {
         this.secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
-        this.expiration = expiration;
     }
 
-    // JWT 토큰 생성
-    public String createToken(Long userId) {
+    // JWT 토큰 생성 - GitHub OAuth2 토큰 만료 시간에 맞춤
+    public String createToken(Long userId, Date expiresAt) {
         Date now = new Date();
-        Date expiryDate = new Date(now.getTime() + expiration);
 
         return Jwts.builder()
                    .claim("userId", userId)
                    .issuedAt(now)
-                   .expiration(expiryDate)
+                   .expiration(expiresAt)
                    .signWith(secretKey)
                    .compact();
     }

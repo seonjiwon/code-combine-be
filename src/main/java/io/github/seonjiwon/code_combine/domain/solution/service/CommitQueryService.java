@@ -1,4 +1,4 @@
-package io.github.seonjiwon.code_combine.domain.solution.service.query;
+package io.github.seonjiwon.code_combine.domain.solution.service;
 
 import io.github.seonjiwon.code_combine.domain.solution.dto.DashboardResponse.UserCommit;
 import io.github.seonjiwon.code_combine.domain.solution.dto.DashboardResponse.WeeklyCommitInfo;
