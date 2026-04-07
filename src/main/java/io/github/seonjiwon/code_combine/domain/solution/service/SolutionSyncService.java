@@ -24,7 +24,6 @@ public class SolutionSyncService {
     /**
      * 커밋 중복 체크
      */
-    @Transactional(readOnly = true)
     public boolean existsByCommitSha(String commitSha) {
         return solutionRepository.existsByCommitSha(commitSha);
     }

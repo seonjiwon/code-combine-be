@@ -104,7 +104,6 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
                                               .secure(true)
                                               .path("/")
                                               .maxAge(maxAgeSeconds)
-                                              .sameSite("None")
                                               .build();
 
         response.addHeader("Set-Cookie", cookie.toString());
