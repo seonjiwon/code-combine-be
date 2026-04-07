@@ -9,7 +9,6 @@ public record ProblemInfo (
     int problemNumber,
     String title,
     String language,
-    String readmeContent,
     ProblemTier tier
 ) {
 
