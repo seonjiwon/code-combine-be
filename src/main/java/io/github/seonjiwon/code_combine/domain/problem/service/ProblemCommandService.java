@@ -1,6 +1,7 @@
 package io.github.seonjiwon.code_combine.domain.problem.service;
 
 import io.github.seonjiwon.code_combine.domain.problem.entity.Problem;
+import io.github.seonjiwon.code_combine.domain.problem.entity.ProblemTier;
 import io.github.seonjiwon.code_combine.domain.problem.repository.ProblemRepository;
 import io.github.seonjiwon.code_combine.domain.problem.dto.ProblemInfo;
 import lombok.RequiredArgsConstructor;
@@ -32,8 +33,7 @@ public class ProblemCommandService {
                                  .problemNumber(problemInfo.problemNumber())
                                  .title(problemInfo.title())
                                  .problemUrl(buildProblemUrl(problemInfo.problemNumber()))
-                                 .tier(problemInfo.tier())
-                                 .description(problemInfo.readmeContent())
+                                 .tier(problemInfo.tier() == null ? ProblemTier.UNRATED : problemInfo.tier())
                                  .build();
 
         Problem savedProblem = problemRepository.save(problem);

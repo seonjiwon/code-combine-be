@@ -14,7 +14,7 @@ public class BaekjoonFilePathParser {
     /**
      * 파일 경로에서 문제 정보 추출
      */
-    public ProblemInfo parse(String filePath, String readmeContent, ProblemTier tier) {
+    public ProblemInfo parse(String filePath, ProblemTier tier) {
         validateFilePath(filePath);
 
         try {
@@ -29,9 +29,10 @@ public class BaekjoonFilePathParser {
                 .problemNumber(problemNumber)
                 .title(title)
                 .language(language)
-                .readmeContent(readmeContent)
                 .tier(tier)
                 .build();
+        } catch (CustomException e) {
+            throw e;
         } catch (Exception e) {
             log.error("파일 경로 파싱 실패: {}", filePath, e);
             throw new CustomException(SolutionErrorCode.INVALID_FILE_PATH);
@@ -58,7 +59,9 @@ public class BaekjoonFilePathParser {
      * 예: 백준/11286.절댓값 힙/Main.java -> 11286.절댓값 힙
      */
     private String extractProblemDirectory(String filePath) {
+        // 1. 마지막 슬래시 찾기
         int lastSlash = filePath.lastIndexOf('/');
+        // 2. 마지막 -1 슬래시 찾기
         int secondLastSlash = filePath.lastIndexOf('/', lastSlash - 1);
 
         if (secondLastSlash == -1 || lastSlash == -1) {
@@ -102,12 +105,15 @@ public class BaekjoonFilePathParser {
      * 예: Main.java -> java
      */
     private String extractLanguage(String filePath) {
-        int dotIndex = filePath.lastIndexOf('.');
+        int lastSlash = filePath.lastIndexOf('/');
+        String codeName = filePath.substring(lastSlash);
+
+        int dotIndex = codeName.lastIndexOf('.');
 
         if (dotIndex == -1) {
             throw new CustomException(SolutionErrorCode.INVALID_FILE_PATH);
         }
 
-        return filePath.substring(dotIndex + 1);
+        return codeName.substring(dotIndex + 1);
     }
 }

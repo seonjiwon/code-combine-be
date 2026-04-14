@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: code-combine
+
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:test;DB_CLOSE_DELAY=-1
+    username: sa
+    password:
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        format_sql: true
+
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: test-client-id
+            client-secret: test-client-secret
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            scope:
+              - repo
+
+jwt:
+  secret: test-secret-key-that-is-at-least-32-bytes-long-for-hmac
+
+github:
+  base-url: https://api.github.com
+  raw-accept-header: application/vnd.github.raw+json
+  json-accept-header: application/vnd.github+json
+
+frontend:
+  url: http://localhost:5173

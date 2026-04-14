@@ -45,15 +45,14 @@ public class SingleCommitSynchronizer {
 
         // 4. README 가져오기
         String readmePath = findReadmePath(commitDetail.filePaths());
-        String readmeContent = null;
         ProblemTier tier = null;
         if (readmePath != null) {
-            readmeContent = fetcher.fetchFileContent(token, owner, repo, readmePath, commitSha);
+            String readmeContent = fetcher.fetchFileContent(token, owner, repo, readmePath, commitSha);
             tier = parseTier(readmeContent);
         }
 
         // 5. 파일 경로에서 문제 정보 파싱 + README 정보 합침
-        ProblemInfo problemInfo = filePathParser.parse(sourceCodePath, readmeContent, tier);
+        ProblemInfo problemInfo = filePathParser.parse(sourceCodePath, tier);
 
         // 6. 소스 코드 가져오기
         String sourceCode = fetcher.fetchFileContent(token, owner, repo, sourceCodePath, commitSha);
